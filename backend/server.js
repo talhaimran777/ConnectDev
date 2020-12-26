@@ -1,4 +1,5 @@
 const express = require('express');
+const connectDB = require('./db');
 const app = express();
 
 app.get('/', (req, res) => {
@@ -7,6 +8,8 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
+if (connectDB()) {
+  app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
+  });
+}
