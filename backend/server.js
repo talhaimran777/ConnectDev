@@ -10,6 +10,8 @@ app.get('/', (req, res) => {
   // res.json({ developerName: 'Talha Imran', age: 23 , gender: "Male"});
 });
 
+// This line will make post req.body data available in req.body
+app.use(express.json({ extended: false }));
 // Setting up backend routes
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/profile', require('./routes/api/profile'));
