@@ -1,11 +1,13 @@
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const gravatar = require('gravatar');
-
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
 // Requiring in User model
 const User = require('../../models/User');
 
+dotenv.config();
 const router = express.Router();
 
 // @route   POST api/users
@@ -63,9 +65,27 @@ router.post(
 
         await user.save();
 
-        return res.status(200).json({
-          msg: 'User got registered successfully!',
-        });
+        const payload = {
+          user: {
+            id: user.id,
+          },
+        };
+
+        jwt.sign(
+          payload,
+          process.env.jwtToken,
+          { expiresIn: 360000 },
+          (err, token) => {
+            if (err) throw err;
+
+            return res.json({
+              token,
+            });
+          }
+        );
+        // return res.status(200).json({
+        //   msg: 'User got registered successfully!',
+        // });
       }
     } catch (error) {
       return res.status(500).send(error.message);
