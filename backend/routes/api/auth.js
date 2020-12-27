@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 // @route   GET api/auth
-// @desc    This is a auth route
+// @desc    Return a user if the token is valid
 // @access  public
 
 // auth is the middleware here
