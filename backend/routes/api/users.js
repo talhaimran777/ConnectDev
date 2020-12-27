@@ -52,7 +52,7 @@ router.post(
           name,
           email,
           password,
-          gravatar: gravatarURL,
+          avatar: gravatarURL,
         });
 
         const salt = await bcrypt.genSalt(10);
@@ -62,7 +62,7 @@ router.post(
         await user.save();
 
         res.status(200).json({
-          msg: 'Working!',
+          msg: 'User got registered successfully!',
         });
       }
 
