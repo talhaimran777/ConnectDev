@@ -2,7 +2,7 @@ const express = require('express');
 const { body, validationResult } = require('express-validator');
 const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const dotenv = require('dotenv');
 // Requiring in User model
 const User = require('../../models/User');
@@ -59,8 +59,8 @@ router.post(
           avatar: gravatarURL,
         });
 
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(email, salt);
+        const salt = await bcryptjs.genSalt(10);
+        const hashedPassword = await bcryptjs.hash(password, salt);
         user.password = hashedPassword;
 
         await user.save();
