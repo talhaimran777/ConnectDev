@@ -27,7 +27,7 @@ router.post(
 
     // if errors exists send 404 error with errors array to the client
     if (!errors.isEmpty()) {
-      res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({ errors: errors.array() });
     }
     // If data is validated insert into the database
 
@@ -39,7 +39,9 @@ router.post(
 
       if (user) {
         // if User exists already give an error
-        res.status(400).json({ errors: [{ msg: 'User already exists!' }] });
+        return res
+          .status(400)
+          .json({ errors: [{ msg: 'User already exists!' }] });
       } else {
         // Write a query here to insert a new user into the database!
         const gravatarURL = gravatar.url(email, {
@@ -61,17 +63,12 @@ router.post(
 
         await user.save();
 
-        res.status(200).json({
+        return res.status(200).json({
           msg: 'User got registered successfully!',
         });
       }
-
-      // user
-      //   .save()
-      //   .then(() => res.send('Inserted Successfully'))
-      //   .catch(() => res.send('Could not insert Data into the database!'));
     } catch (error) {
-      res.status(500).send();
+      return res.status(500).send(error.message);
     }
   }
 );
